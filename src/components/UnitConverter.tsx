@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 
+const unitConversions: Record<string, number> = {
+  Meter: 1,
+  Kilometer: 0.001,
+  Centimeter: 100,
+  Millimeter: 1000,
+  Mile: 0.000621371,
+};
+
 const UnitConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(0);
   const [fromUnit, setFromUnit] = useState<string>("Meter");
@@ -7,7 +15,12 @@ const UnitConverter: React.FC = () => {
   const [result, setResult] = useState<number>(0);
 
   const convertUnits = () => {
-    setResult(0);
+    const fromUnitBase = unitConversions[fromUnit];
+    const toUnitBase = unitConversions[toUnit];
+
+    if (fromUnitBase && toUnitBase) {
+      setResult((amount * toUnitBase) / fromUnitBase);
+    }
   };
 
   return (
@@ -26,16 +39,22 @@ const UnitConverter: React.FC = () => {
           onChange={(e) => setFromUnit(e.target.value)}
           className="border border-gray-300 rounded p-1"
         >
-          <option>Meter</option>
-          <option>KiloMeter</option>
+          <option value="Meter">Meter</option>
+          <option value="Kilometer">Kilometer</option>
+          <option value="Centimeter">Centimeter</option>
+          <option value="Millimeter">Millimeter</option>
+          <option value="Mile">Mile</option>
         </select>
         <select
           value={toUnit}
           onChange={(e) => setToUnit(e.target.value)}
           className="border border-gray-300 rounded p-1"
         >
-          <option>Meter</option>
-          <option>KiloMeter</option>
+          <option value="Meter">Meter</option>
+          <option value="Kilometer">Kilometer</option>
+          <option value="Centimeter">Centimeter</option>
+          <option value="Millimeter">Millimeter</option>
+          <option value="Mile">Mile</option>
         </select>
       </div>
       <button
